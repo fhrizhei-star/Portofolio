@@ -344,7 +344,7 @@ const $ = (s) => document.querySelectorAll(s),
       mail.onclick = () => {
         const o = mail.innerHTML;
         try {
-          navigator.clipboard.writeText("nama@email.com");
+          navigator.clipboard.writeText("fhrizhei@gmail.com");
         } catch (e) {}
         mail.innerHTML = 'Email disalin <span class="o">✔</span>';
         setTimeout(() => (mail.innerHTML = o), 1600);
