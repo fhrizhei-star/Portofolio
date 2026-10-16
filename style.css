@@ -118,46 +118,184 @@
           transform: translate(8vw, 6vw) scale(1.25);
         }
       }
-      /* loader */
+      /* ============================================ */
+      /* ENHANCED ANIMATED INTRO / SPLASH SCREEN      */
+      /* ============================================ */
       .ld {
         position: fixed;
         inset: 0;
         z-index: 200;
         background: var(--bg);
-        display: grid;
-        place-items: center;
-        transition: clip-path 1s cubic-bezier(0.8, 0, 0.2, 1);
-        clip-path: circle(150% at 50% 50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition:
+          opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+          transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
       }
       .ld.done {
-        clip-path: circle(0% at 50% 50%);
+        opacity: 0;
+        transform: translateY(-100%);
+        pointer-events: none;
       }
-      .ld b {
-        font:
-          800 clamp(4rem, 16vw, 10rem) Sora,
-          sans-serif;
-        letter-spacing: -0.05em;
-        background: linear-gradient(135deg, var(--ac), var(--ac2));
+      .ld-aurora {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .ld-aurora i:first-child {
+        position: absolute;
+        width: 60vw;
+        height: 60vw;
+        max-width: 500px;
+        max-height: 500px;
+        top: 20%;
+        left: 20%;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--o1) 0%, transparent 70%);
+        filter: blur(80px);
+        animation: ldPulse 4s ease-in-out infinite alternate;
+      }
+      .ld-aurora i:last-child {
+        position: absolute;
+        width: 50vw;
+        height: 50vw;
+        max-width: 420px;
+        max-height: 420px;
+        bottom: 15%;
+        right: 20%;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--o2) 0%, transparent 70%);
+        filter: blur(80px);
+        animation: ldPulse 4s ease-in-out infinite alternate-reverse;
+      }
+      @keyframes ldPulse {
+        0% { transform: scale(0.85) translate(-10px, -10px); opacity: 0.6; }
+        100% { transform: scale(1.15) translate(15px, 15px); opacity: 1; }
+      }
+
+      .ld-box {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 30px;
+        max-width: 460px;
+        width: 90%;
+        animation: ldBoxIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes ldBoxIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ld-logo-wrap {
+        position: relative;
+        width: 95px;
+        height: 95px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 24px;
+      }
+      .ld-logo-glow {
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--ac2) 0%, rgba(29, 92, 255, 0.2) 60%, transparent 80%);
+        filter: blur(14px);
+        animation: ldGlowBreath 2.6s ease-in-out infinite alternate;
+      }
+      @keyframes ldGlowBreath {
+        0% { transform: scale(0.85); opacity: 0.5; }
+        100% { transform: scale(1.2); opacity: 1; }
+      }
+      .ld-logo-img {
+        position: relative;
+        z-index: 2;
+        width: 76px;
+        height: 76px;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 24px rgba(0, 180, 255, 0.4));
+        animation: ldFloat 3.5s ease-in-out infinite alternate;
+      }
+      @keyframes ldFloat {
+        0% { transform: translateY(0px) rotate(0deg); }
+        100% { transform: translateY(-7px) rotate(2deg); }
+      }
+
+      .ld-brand {
+        margin-bottom: 28px;
+      }
+      .ld-name {
+        font: 800 clamp(1.8rem, 6vw, 2.5rem) Sora, sans-serif;
+        letter-spacing: 0.18em;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, var(--fg) 20%, var(--ac2) 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
       }
-      .ld i {
-        position: absolute;
-        left: 10vw;
-        right: 10vw;
-        bottom: 18vh;
-        height: 3px;
-        background: var(--ln);
-        overflow: hidden;
+      .ld-tagline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--mut);
+        letter-spacing: 0.05em;
       }
-      .ld i::after {
-        content: "";
-        position: absolute;
-        inset: 0;
+      .ld-dot {
+        color: var(--ac2);
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
+
+      .ld-hud {
+        width: 100%;
+        max-width: 320px;
+      }
+      .ld-bar-track {
+        position: relative;
+        height: 6px;
+        width: 100%;
+        background: var(--ln);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 12px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .ld-bar-fill {
+        height: 100%;
+        width: 0%;
         background: linear-gradient(90deg, var(--ac), var(--ac2));
-        transform: scaleX(var(--p, 0));
-        transform-origin: left;
+        border-radius: 99px;
+        box-shadow: 0 0 14px var(--ac2);
+        transition: width 0.08s ease-out;
+      }
+      .ld-status-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.82rem;
+        color: var(--mut);
+        font-weight: 500;
+      }
+      .ld-pc-wrap {
+        font-family: Sora, sans-serif;
+        font-weight: 700;
+        color: var(--ac2);
       }
 
       #bar {

@@ -21,8 +21,25 @@ const $ = (s) => document.querySelectorAll(s),
       });
       // loader
       const pc = document.getElementById("pc"),
+        lp = document.getElementById("lp"),
+        ldStatus = document.getElementById("ld-status"),
         ld = document.getElementById("ld");
       let n = 0;
+      const statusSteps = [
+        { at: 0, text: "Memuat aset & antarmuka..." },
+        { at: 35, text: "Menyiapkan showreel visual..." },
+        { at: 70, text: "Menyusun portofolio karya..." },
+        { at: 95, text: "Selamat datang ✨" },
+      ];
+      function updateStatus(val) {
+        if (!ldStatus) return;
+        for (let i = statusSteps.length - 1; i >= 0; i--) {
+          if (val >= statusSteps[i].at) {
+            ldStatus.textContent = statusSteps[i].text;
+            break;
+          }
+        }
+      }
       function done() {
         ld.classList.add("done");
         document.body.classList.add("ready");
@@ -31,16 +48,20 @@ const $ = (s) => document.querySelectorAll(s),
         done();
       } else {
         const id = setInterval(() => {
-          n += Math.ceil(Math.random() * 7);
+          n += Math.floor(Math.random() * 5) + 3;
           if (n >= 100) {
             n = 100;
             clearInterval(id);
-            setTimeout(done, 300);
+            if (pc) pc.textContent = n;
+            if (lp) lp.style.width = "100%";
+            updateStatus(100);
+            setTimeout(done, 450);
+            return;
           }
-          pc.textContent = n;
-          ld.style.setProperty("--p", n / 100);
-          document.getElementById("lp").style.setProperty("--p", n / 100);
-        }, 50);
+          if (pc) pc.textContent = n;
+          if (lp) lp.style.width = n + "%";
+          updateStatus(n);
+        }, 45);
       }
       // particle network
       const cv = document.getElementById("net"),
