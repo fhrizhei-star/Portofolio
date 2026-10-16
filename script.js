@@ -42,13 +42,6 @@ const $ = (s) => document.querySelectorAll(s),
           document.getElementById("lp").style.setProperty("--p", n / 100);
         }, 50);
       }
-      // cursor tracking for background particles
-      let mx = innerWidth / 2,
-        my = innerHeight / 2;
-      addEventListener("pointermove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
       // particle network
       const cv = document.getElementById("net"),
         cx = cv.getContext("2d");
@@ -75,13 +68,6 @@ const $ = (s) => document.querySelectorAll(s),
           p.y += p.vy;
           if (p.x < 0 || p.x > cv.width) p.vx *= -1;
           if (p.y < 0 || p.y > cv.height) p.vy *= -1;
-          const dx = mx - p.x,
-            dy = my - p.y,
-            d = Math.hypot(dx, dy);
-          if (d < 160) {
-            p.x += dx * 0.012;
-            p.y += dy * 0.012;
-          }
           cx.fillStyle = "rgba(" + c + ",.7)";
           cx.beginPath();
           cx.arc(p.x, p.y, 2, 0, 7);
